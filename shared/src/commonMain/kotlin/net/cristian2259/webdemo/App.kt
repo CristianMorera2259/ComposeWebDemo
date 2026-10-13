@@ -30,7 +30,7 @@ fun App() {
             Text(
                 text = "Valor actual\n${interacter.currentValue}",
                 style = MaterialTheme.typography.headlineMedium,
-                color = Color.White,
+                color = MaterialTheme.colorScheme.onBackground,
                 textAlign = TextAlign.Center,
             )
 

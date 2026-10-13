@@ -8,7 +8,7 @@ class InteracterTest {
     @Test
     fun checkInitialValue() {
         val interacter = Interacter()
-        assertEquals(100.0, interacter.currentValue, "El valor inicial debe ser 1.0")
+        assertEquals(100.0, interacter.currentValue, "El valor inicial debe ser 100.0")
     }
 
     @Test

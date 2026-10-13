@@ -30,6 +30,7 @@ jobs:
   # En el VPS u otro PC la puedan descargar
   # Watchtower es encargado de estar verificando las nuevas versiones
   # y actualizar los contenedores de forma automática.
+  # Además, se especifica que solo sea en los push a main
 
   publish:
     needs: test

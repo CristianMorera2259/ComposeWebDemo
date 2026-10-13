@@ -20,7 +20,6 @@ fun App() {
 
     val interacter = remember { Interacter() }
 
-
     MaterialTheme {
         Column(
             modifier = Modifier.fillMaxSize().background(MaterialTheme.colorScheme.background),
@@ -29,7 +28,7 @@ fun App() {
         ) {
             Text(
                 text = "Valor actual\n${interacter.currentValue}",
-                style = MaterialTheme.typography.headlineMedium,
+                style = MaterialTheme.typography.headlineLarge,
                 color = MaterialTheme.colorScheme.onBackground,
                 textAlign = TextAlign.Center,
             )

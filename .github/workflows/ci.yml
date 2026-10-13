@@ -1,5 +1,6 @@
 name: CI
-# Primero, se define que se hará cuando se hace push a la rama main
+
+# Primero se define CUANDO se hará, en este caso push en main
 on:
   push:
     branches: [ main ]
@@ -9,11 +10,9 @@ permissions:
   contents: read
   packages: write
 
-# luego se pone un trabajo, que es el de correr los test
-# en la compilación de web assembly
+# los jobs son trabajos por hacer
 jobs:
-  # "test" correrá en ubuntu, instalará java 25 y correrá los tests
-  # de webassembly del proyecto
+  # test correrá en Ubuntu y Java 25 las pruebas unitarias con gradle
   test:
     runs-on: ubuntu-latest
     steps:
@@ -23,21 +22,23 @@ jobs:
           distribution: temurin
           java-version: 25
           cache: gradle
-      - run: chmod +x gradlew # se le da el permiso
+      - run: chmod +x gradlew
       - run: ./gradlew :shared:wasmJsTest --no-daemon
 
-  # Luego, está la parte de la publicación
+# Luego va el trabajo de publicar, este requiere que test termine
+# Lo que hace es subir a ghcr.io la imagen de docker para que
+# En el VPS u otro PC la puedan descargar
+# Watchtower es encargado de estar verificando las nuevas versiones
+# y actualizar los contenedores de forma automática.
+
   publish:
-    # Requeire que el job "test" ya haya ocurrido y salido bien obvio
     needs: test
-    # Cuando se hace un push
     if: github.event_name == 'push' && github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
       - uses: docker/login-action@v3
         with:
-          # Lo que hace es mandar a ghcr.io la imagen de docker
           registry: ghcr.io
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
@@ -46,4 +47,5 @@ jobs:
           context: .
           push: true
           tags: ghcr.io/cristianmorera2259/composewebdemo:latest
-          # Esto es lo que "leera" watchtower en el VPS
+          cache-from: type=gha
+          cache-to: type=gha,mode=max

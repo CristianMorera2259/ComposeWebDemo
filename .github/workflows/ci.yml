@@ -1,0 +1,46 @@
+name: CI
+# Primero, se define que se hará cuando se hace push a la rama main
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+permissions:
+  contents: read
+  packages: write
+
+# luego se pone un trabajo, que es el de correr los test
+# en la compilación de web assembly
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: 25
+      - run: ./gradlew :shared:wasmJsTest --no-daemon
+# Correra los test usando gradle, Java 25
+
+# Luego, está la parte de la publicación
+  publish:
+    # Requeire que el job "test" ya haya ocurrido
+    needs: test
+    # Cuando se hace un push
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: docker/login-action@v3
+        with:
+          # Lo que hace es mandar a ghcr.io la imagen de docker
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+      - uses: docker/build-push-action@v6
+        with:
+          context: .
+          push: true
+          tags: ghcr.io/cristianmorera2259/composewebdemo:latest
+          # Esto es lo que "leera" watchtower en el VPS

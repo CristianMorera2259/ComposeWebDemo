@@ -2,7 +2,7 @@ name: CI
 # Primero, se define que se hará cuando se hace push a la rama main
 on:
   push:
-    branches: [main]
+    branches: [ main ]
   pull_request:
 
 permissions:
@@ -12,7 +12,8 @@ permissions:
 # luego se pone un trabajo, que es el de correr los test
 # en la compilación de web assembly
 jobs:
-
+  # "test" correrá en ubuntu, instalará java 25 y correrá los tests
+  # de webassembly del proyecto
   test:
     runs-on: ubuntu-latest
     steps:
@@ -21,13 +22,13 @@ jobs:
         with:
           distribution: temurin
           java-version: 25
+          cache: gradle
       - run: chmod +x gradlew # se le da el permiso
       - run: ./gradlew :shared:wasmJsTest --no-daemon
-# Correra los test usando gradle, Java 25
 
-# Luego, está la parte de la publicación
+  # Luego, está la parte de la publicación
   publish:
-    # Requeire que el job "test" ya haya ocurrido
+    # Requeire que el job "test" ya haya ocurrido y salido bien obvio
     needs: test
     # Cuando se hace un push
     if: github.event_name == 'push' && github.ref == 'refs/heads/main'

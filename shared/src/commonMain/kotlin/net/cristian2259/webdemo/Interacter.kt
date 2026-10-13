@@ -7,11 +7,11 @@ import androidx.compose.runtime.setValue
 class Interacter {
     var currentValue by mutableStateOf(1.0)
 
-    fun increment(){
+    fun increment() {
         currentValue += 1.0
     }
 
-    fun decrement(){
+    fun decrement() {
         currentValue -= 1.0
     }
 

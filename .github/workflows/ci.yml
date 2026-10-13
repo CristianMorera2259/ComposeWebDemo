@@ -25,11 +25,11 @@ jobs:
       - run: chmod +x gradlew
       - run: ./gradlew :shared:wasmJsTest --no-daemon
 
-# Luego va el trabajo de publicar, este requiere que test termine
-# Lo que hace es subir a ghcr.io la imagen de docker para que
-# En el VPS u otro PC la puedan descargar
-# Watchtower es encargado de estar verificando las nuevas versiones
-# y actualizar los contenedores de forma automática.
+  # Luego va el trabajo de publicar, este requiere que test termine
+  # Lo que hace es subir a ghcr.io la imagen de docker para que
+  # En el VPS u otro PC la puedan descargar
+  # Watchtower es encargado de estar verificando las nuevas versiones
+  # y actualizar los contenedores de forma automática.
 
   publish:
     needs: test

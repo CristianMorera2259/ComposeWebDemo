@@ -15,17 +15,29 @@ class InteracterTest {
     fun increment_increasesValue() {
         val interacter = Interacter()
 
+        val initValue = interacter.currentValue
         interacter.increment()
+        val expectedValue: Double = initValue + 1.0
 
-        assertEquals(2.0, interacter.currentValue, "Incrementar debe sumar 1.0")
+        assertEquals(
+            expectedValue,
+            interacter.currentValue,
+            "Incrementar -> El valor inicial $initValue se esperaba que fuera $expectedValue pero resultó ser ${interacter.currentValue}"
+        )
     }
 
     @Test
     fun decrement_decreasesValue() {
         val interacter = Interacter()
 
+        val initValue = interacter.currentValue
         interacter.decrement()
+        val expectedValue: Double = initValue - 1.0
 
-        assertEquals(0.0, interacter.currentValue, "Decrementar debe restar 1.0")
+        assertEquals(
+            expectedValue,
+            interacter.currentValue,
+            "Decrementar -> El valor inicial $initValue se esperaba que fuera $expectedValue pero resultó ser ${interacter.currentValue}"
+        )
     }
 }

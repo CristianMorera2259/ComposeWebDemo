@@ -23,7 +23,7 @@ fun App() {
 
     MaterialTheme {
         Column(
-            modifier = Modifier.fillMaxSize().background(Color.DarkGray),
+            modifier = Modifier.fillMaxSize().background(Color.Black),
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.Center
         ) {

@@ -47,5 +47,3 @@ jobs:
           context: .
           push: true
           tags: ghcr.io/cristianmorera2259/composewebdemo:latest
-          cache-from: type=gha
-          cache-to: type=gha,mode=max
